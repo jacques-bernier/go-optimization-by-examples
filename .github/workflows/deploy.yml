@@ -22,10 +22,10 @@ jobs:
       run: go test -v -bench=. -benchmem ./...
 
     - name: Build site
-      run: go run ./cmd/build/main.go
+      run: go run ./cmd/build/main.go --destination=build
 
     - name: Deploy
       uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
-        publish_dir: ./examples
+        publish_dir: ./build

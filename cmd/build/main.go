@@ -1,6 +1,8 @@
 package main
 
 import (
+	"flag"
+	"fmt"
 	"html/template"
 	"log"
 	"os"
@@ -17,6 +19,9 @@ type example struct {
 }
 
 func main() {
+
+	destination := flag.String("destination", "dist", "location where the built artifacts are generated")
+
 	home := `
 <!DOCTYPE html>
 <html>
@@ -51,7 +56,7 @@ func main() {
 			},
 		},
 	}
-	file, err := os.Create("examples/index.html")
+	file, err := os.Create(fmt.Sprintf("%s/index.html", &destination))
 	check(err)
 	defer file.Close()
 
