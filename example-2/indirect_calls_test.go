@@ -17,10 +17,13 @@ type adder interface {
 
 type dummy struct{ m int64 }
 
+// Direct calls `Add` on a struct passed by reference.
+// Note that passing the struct by value would yield a similar result.
 func (d *dummy) Direct(a *add) int64 {
 	return a.Add() + d.m
 }
 
+// Indirect calls `Add` against an interface
 func (d *dummy) Indirect(a adder) int64 {
 	return a.Add() + d.m
 }
