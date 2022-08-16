@@ -56,7 +56,7 @@ func main() {
 			},
 		},
 	}
-	file, err := os.Create(fmt.Sprintf("%s/index.html", &destination))
+	file, err := os.Create(fmt.Sprintf("%s/index.html", *destination))
 	check(err)
 	defer file.Close()
 
