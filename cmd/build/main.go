@@ -2,10 +2,10 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"html/template"
 	"log"
 	"os"
+	"path/filepath"
 )
 
 type page struct {
@@ -19,8 +19,16 @@ type example struct {
 }
 
 func main() {
+	check := func(err error) {
+		if err != nil {
+			log.Fatal(err)
+		}
+	}
 
-	destination := flag.String("destination", "dist", "location where the built artifacts are generated")
+	destination := *(flag.String("destination", "dist", "location where the built artifacts are generated"))
+
+	err := os.MkdirAll(destination, os.ModePerm)
+	check(err)
 
 	home := `
 <!DOCTYPE html>
@@ -34,12 +42,6 @@ func main() {
 	</body>
 </html>
 `
-
-	check := func(err error) {
-		if err != nil {
-			log.Fatal(err)
-		}
-	}
 	t, err := template.New("webpage").Parse(home)
 	check(err)
 
@@ -56,7 +58,7 @@ func main() {
 			},
 		},
 	}
-	file, err := os.Create(fmt.Sprintf("%s/index.html", *destination))
+	file, err := os.Create(filepath.Join(destination, "index.html"))
 	check(err)
 	defer file.Close()
 
