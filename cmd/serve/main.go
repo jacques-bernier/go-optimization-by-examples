@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
@@ -28,10 +29,11 @@ func openbrowser(url string) {
 }
 
 func main() {
-	source := "./examples"
+	source := flag.String("source", "dist", "where the built artifacts are located")
+	flag.Parse()
 	pattern := "/go-optimization-by-examples/"
 	port := 3000
-	fs := http.FileServer(http.Dir(source))
+	fs := http.FileServer(http.Dir(*source))
 
 	http.Handle(pattern, http.StripPrefix(pattern, fs))
 

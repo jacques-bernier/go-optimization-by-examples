@@ -25,9 +25,11 @@ func main() {
 		}
 	}
 
-	destination := *(flag.String("destination", "dist", "location where the built artifacts are generated"))
+	destination := flag.String("destination", "dist", "location where the built artifacts are generated")
 
-	err := os.MkdirAll(destination, os.ModePerm)
+	flag.Parse()
+
+	err := os.MkdirAll(*destination, os.ModePerm)
 	check(err)
 
 	home := `
@@ -58,7 +60,7 @@ func main() {
 			},
 		},
 	}
-	file, err := os.Create(filepath.Join(destination, "index.html"))
+	file, err := os.Create(filepath.Join(*destination, "index.html"))
 	check(err)
 	defer file.Close()
 
